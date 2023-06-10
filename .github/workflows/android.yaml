@@ -1,0 +1,30 @@
+name: Build Go Library Android
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Set OS
+        run: export GOOS=android
+
+      - name: Set Go Architecture
+        run: export GOARCH=arm64
+
+      - name: Set CGO Enabled
+        run: export CGO_ENABLED=1
+
+      - name: Set CGO CFLAGS
+        run: CGO_CFLAGS="-fembed-bitcode"
+
+      - name: Build
+        run: go build -buildmode c-archive  -trimpath  -o lib_token_studio_graph_engine.a -v ./...
