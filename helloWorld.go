@@ -9,5 +9,5 @@ func main() {
 //export sayHello
 func sayHello() *C.char {
 	return C.CString("Hello")
-	
+
 }
