@@ -1,4 +1,4 @@
-package token_studio_graph_engine_go
+package main
 
 import "C"
 
