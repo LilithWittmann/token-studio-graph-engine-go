@@ -26,6 +26,13 @@ jobs:
           CGO_ENABLED: 1
           CARCH: amd64
 
+      - name: Install gomobile bind
+        run: gomobile init
+        env:
+          GO111MODULE: auto
+          CGO_ENABLED: 1
+          CARCH: amd64
+
       - name: check ndk path
         run: ls ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/
 
