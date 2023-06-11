@@ -17,7 +17,6 @@ jobs:
       - name: Build Android arm64-v8a
         run: go build -buildmode=c-shared   -trimpath  -o out/arm64-v8a/lib_token_studio_graph_engine.so -v ./...
         env:
-          CGO_CFLAGS: "-fembed-bitcode"
           GOOS: android
           GOARCH: arm64
           CGO_ENABLED: 1
@@ -26,7 +25,6 @@ jobs:
       - name: Build Android armeabi-v7a
         run: go build -buildmode=c-shared   -trimpath  -o out/armeabi-v7a/lib_token_studio_graph_engine.so -v ./...
         env:
-          CGO_CFLAGS: "-fembed-bitcode"
           GOOS: android
           GOARCH: arm
           CGO_ENABLED: 1
@@ -35,7 +33,6 @@ jobs:
       - name: Build Android x86
         run: go build -buildmode=c-shared   -trimpath  -o out/x86/lib_token_studio_graph_engine.so -v ./...
         env:
-          CGO_CFLAGS: "-fembed-bitcode"
           GOOS: android
           GOARCH: 386
           CGO_ENABLED: 1
@@ -44,7 +41,6 @@ jobs:
       - name: Build Android x86_64
         run: go build -buildmode=c-shared   -trimpath  -o out/x86_64/lib_token_studio_graph_engine.so -v ./...
         env:
-          CGO_CFLAGS: "-fembed-bitcode"
           GOOS: android
           GOARCH: amd64
           CGO_ENABLED: 1
