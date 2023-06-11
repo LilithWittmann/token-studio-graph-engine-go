@@ -27,14 +27,13 @@ jobs:
         run: CGO_CFLAGS="-fembed-bitcode"
 
       - name: Build
-        run: go build -buildmode c-archive  -trimpath  -o out/lib_token_studio_graph_engine.a -v ./...
+        run: go build -buildmode=c-shared   -trimpath  -o out/lib_token_studio_graph_engine.so -v ./...
 
       - name: Upload build
         uses: actions/upload-artifact@v3
         with:
           name: output
           path: lib_token_studio_graph_engine.a
-
 
       - name: Upload build and header file
         uses: actions/upload-artifact@v3
