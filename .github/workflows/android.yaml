@@ -14,6 +14,11 @@ jobs:
         with:
           go-version: '1.20.1'
 
+      - uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
       - name: Build Android arm64-v8a
         run: go build -buildmode=c-shared   -trimpath  -o out/arm64-v8a/lib_token_studio_graph_engine.so -v ./...
         env:
