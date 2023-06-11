@@ -26,6 +26,8 @@ jobs:
           CGO_ENABLED: 1
           CARCH: amd64
 
+      - name: check ndk path
+        run: ls ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt
       - name: Build Android arm64-v8a
         run: go build -buildmode=c-shared   -trimpath  -o out/arm64-v8a/lib_token_studio_graph_engine.so -v ./...
         env:
