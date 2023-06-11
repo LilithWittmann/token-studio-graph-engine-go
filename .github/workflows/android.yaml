@@ -27,7 +27,8 @@ jobs:
           CARCH: amd64
 
       - name: check ndk path
-        run: ls ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt
+        run: ls ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/
+
       - name: Build Android arm64-v8a
         run: go build -buildmode=c-shared   -trimpath  -o out/arm64-v8a/lib_token_studio_graph_engine.so -v ./...
         env:
@@ -35,7 +36,7 @@ jobs:
           GOARCH: arm64
           CGO_ENABLED: 1
           CARCH: arm64
-          C: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang
+          CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang
 
       - name: Build Android armeabi-v7a
         run: go build -buildmode=c-shared   -trimpath  -o out/armeabi-v7a/lib_token_studio_graph_engine.so -v ./...
@@ -44,7 +45,7 @@ jobs:
           GOARCH: arm
           CGO_ENABLED: 1
           CARCH: arm
-          C: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi21-clang
+          CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi21-clang
 
       - name: Build Android x86
         run: go build -buildmode=c-shared   -trimpath  -o out/x86/lib_token_studio_graph_engine.so -v ./...
@@ -53,7 +54,7 @@ jobs:
           GOARCH: 386
           CGO_ENABLED: 1
           CARCH: 386
-          C: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android21-clang
+          CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android21-clang
 
       - name: Build Android x86_64
         run: go build -buildmode=c-shared   -trimpath  -o out/x86_64/lib_token_studio_graph_engine.so -v ./...
@@ -62,7 +63,7 @@ jobs:
           GOARCH: amd64
           CGO_ENABLED: 1
           CARCH: amd64
-          C: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android21-clang
+          CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android21-clang
 
       - name: Build AAR File with gomobile
         run: gomobile bind -target=android -o out/token_studio_graph_engine.aar -v ./...
@@ -70,7 +71,7 @@ jobs:
           GO111MODULE: auto
           CGO_ENABLED: 1
           CARCH: amd64
-          C: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android21-clang
+          CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android21-clang
 
 
 
