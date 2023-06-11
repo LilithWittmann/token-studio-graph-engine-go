@@ -1,4 +1,4 @@
-package types
+package token_studio_graph_engine
 
 import "C"
 
