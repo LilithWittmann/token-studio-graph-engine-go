@@ -36,7 +36,7 @@ jobs:
       - name: check ndk path
         run: ls ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/
 
-      
+
       - name: Build AAR File with gomobile
         run: |
           gomobile bind -target=android -o out/token_studio_graph_engine.aar -v ./.../graph
