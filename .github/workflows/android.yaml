@@ -74,7 +74,7 @@ jobs:
 
       - name: Build AAR File with gomobile
         run: |
-          gomobile bind -target=android -o out/token_studio_graph_engine.aar -v ./...
+          gomobile bind -target=android -o out/token_studio_graph_engine.aar -v ./.../graph
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
