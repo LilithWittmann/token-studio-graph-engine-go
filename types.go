@@ -2,13 +2,25 @@ package types
 
 import "C"
 
-type Counter struct {
-	Value int
+type Node struct {
+	ID   string      `json:"id"`
+	Type NodeTypes   `json:"type"`
+	Data interface{} `json:"data"`
 }
 
-func (c *Counter) Inc() { c.Value++ }
+type Edge struct {
+	ID           string `json:"id"`
+	Type         string `json:"type"`
+	Source       string `json:"source"`
+	SourceHandle string `json:"sourceHandle"`
+	Target       string `json:"target"`
+	TargetHandle string `json:"targetHandle"`
+}
 
-func NewCounter() *Counter { return &Counter{5} }
+type JSONGraph struct {
+	Nodes []Node `json:"nodes"`
+	Edges []Edge `json:"edges"`
+}
 
 type NodeDefinition struct {
 	Type           string
