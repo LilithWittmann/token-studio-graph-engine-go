@@ -20,9 +20,12 @@ jobs:
       - name: Set Go Architecture
         run: export GOARCH=arm64
 
+      - name: Set CARCH
+        run: export CARCH=arm64
+
       - name: Set Go CPU
         run: export GOARM=8
-        
+
       - name: Set CGO Enabled
         run: export CGO_ENABLED=1
 
@@ -31,12 +34,6 @@ jobs:
 
       - name: Build
         run: go build -buildmode=c-shared   -trimpath  -o out/lib_token_studio_graph_engine.so -v ./...
-
-      - name: Upload build
-        uses: actions/upload-artifact@v3
-        with:
-          name: output
-          path: lib_token_studio_graph_engine.a
 
       - name: Upload build and header file
         uses: actions/upload-artifact@v3
