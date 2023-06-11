@@ -20,6 +20,9 @@ jobs:
       - name: Set Go Architecture
         run: export GOARCH=arm64
 
+      - name: Set Go CPU
+        run: export GOARM=8
+        
       - name: Set CGO Enabled
         run: export CGO_ENABLED=1
 
