@@ -20,7 +20,6 @@ jobs:
           CGO_CFLAGS: -fembed-bitcode
           GOOS: android
           GOARCH: arm64
-          GOARM: 8
           CGO_ENABLED: 1
           CARCH: arm64
 
