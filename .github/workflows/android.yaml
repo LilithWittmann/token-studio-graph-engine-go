@@ -14,23 +14,19 @@ jobs:
           go-version: '1.20.1'
 
 
-      - name: Install gomobile
-        run: go get golang.org/x/mobile/cmd/gomobile
+      - name: Install Gomobile
+        run: |
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          go install golang.org/x/mobile/cmd/gobind@latest
+          go get golang.org/x/mobile/cmd/gobind
+          go get golang.org/x/mobile/cmd/gomobile
+          gomobile init
         env:
-          GO111MODULE: auto
-          CGO_ENABLED: 1
-          CARCH: amd64
+          GOPROXY: https://proxy.golang.org,direct
+          GO111MODULE: "on"
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_TOOLCHAIN: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
 
-      - name: Add Go Path
-        run: echo "::add-path::${{ github.workspace }}/go/bin"
-
-
-      - name: Install gomobile bind
-        run: gomobile init
-        env:
-          GO111MODULE: auto
-          CGO_ENABLED: 1
-          CARCH: amd64
 
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
@@ -77,12 +73,14 @@ jobs:
           CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android21-clang
 
       - name: Build AAR File with gomobile
-        run: gomobile bind -target=android -o out/token_studio_graph_engine.aar -v ./...
+        run: |
+          gomobile bind -target=android -o out/token_studio_graph_engine.aar -v ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
           CARCH: amd64
-          CC: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android21-clang
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK_TOOLCHAIN: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin
 
 
 
