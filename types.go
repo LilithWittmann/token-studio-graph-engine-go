@@ -118,6 +118,13 @@ func getSupportedNodes() map[NodeTypes]bool {
 	}
 }
 
+type NodeResolver struct {
+	//export NodeData
+	resolve  func(Node) (interface{}, error)
+	validate func(Node) error
+	Type     NodeTypes
+}
+
 func NewGraph(json_input []byte) (Graph, error) {
 	var g Graph
 	err := json.Unmarshal(json_input, &g)

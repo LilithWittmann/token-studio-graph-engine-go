@@ -1,4 +1,4 @@
-module token-studio-graph-engine-go
+module github.com/lilithwittmann/token-studio-graph-engine-go
 
 go 1.20
 

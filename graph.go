@@ -106,7 +106,7 @@ func execute(json_graph []byte) ([]byte, error) {
 		if inputGraph.State[node.ID] != nil {
 			fmt.Println(inputGraph.State[node.ID])
 		}
-		
+
 		fmt.Println(node.Type)
 	}
 	return json_graph, nil
