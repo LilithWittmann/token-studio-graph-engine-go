@@ -7,14 +7,14 @@ import (
 )
 
 func TestInitGraphFromJSON(t *testing.T) {
-	content, _ := os.ReadFile("fixtures/basic.json")
+	content, _ := os.ReadFile("fixtures/math.json")
 	g, _ := NewGraph(content)
 	fmt.Println(g.Nodes)
 	fmt.Println(g.Edges)
 }
 
 func TestExecute(t *testing.T) {
-	content, _ := os.ReadFile("fixtures/basic.json")
+	content, _ := os.ReadFile("fixtures/math.json")
 	execute(content)
 }
 

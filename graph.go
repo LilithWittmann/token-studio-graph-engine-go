@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dominikbraun/graph"
+	"github.com/lilithwittmann/token-studio-graph-engine-go/nodes"
 	"sync"
 )
 
@@ -35,7 +36,8 @@ func convertGraphToGraphlib(inputGraph Graph) graph.Graph[string, Node] {
 	for _, edge := range inputGraph.Edges {
 		g.AddEdge(edge.Source, edge.Target,
 			graph.EdgeAttribute("ID", edge.ID),
-			graph.EdgeAttribute("SourceHandle", edge.SourceHandle))
+			graph.EdgeAttribute("SourceHandle", edge.SourceHandle),
+			graph.EdgeAttribute("TargetHandle", edge.TargetHandle))
 	}
 	return g
 
@@ -46,16 +48,18 @@ func findTerminals(inputGraph Graph) (Terminals, error) {
 	// Check and map input and output and validate if there are non-existing nodes
 	for _, node := range inputGraph.Nodes {
 		switch node.Type {
-		case INPUT:
+		case nodes.INPUT:
 			terminalInput := node
 			terminals.Input = &terminalInput
-		case OUTPUT:
+		case nodes.OUTPUT:
 			terminalOutput := node
 			terminals.Output = &terminalOutput
 		default:
-			if !(getSupportedNodes()[node.Type]) {
-				return terminals, errors.New("Unkonwn node type '" + string(node.Type) + "'")
-			}
+			/*
+				if !(nodes.GetSupportedNodes()[node.Type]) {
+					return terminals, errors.New("Unkonwn node type '" + string(node.Type) + "'")
+				}*/
+			fmt.Print("Unknown node type: ")
 		}
 	}
 
@@ -63,7 +67,7 @@ func findTerminals(inputGraph Graph) (Terminals, error) {
 }
 
 //export execute
-func execute(json_graph []byte) ([]byte, error) {
+func execute(json_graph []byte) (map[string]interface{}, error) {
 	inputGraph, err := NewGraph(json_graph)
 	fmt.Println("State")
 	fmt.Println(inputGraph.State)
@@ -107,8 +111,36 @@ func execute(json_graph []byte) ([]byte, error) {
 			fmt.Println(inputGraph.State[node.ID])
 		}
 
+		// create a source target map
+		sourceTargetMap := map[string][]graph.Edge[string]{}
+		edges, _ := connectedGraph.Edges()
+		for _, edge := range edges {
+			sourceTargetMap[edge.Source] = append(sourceTargetMap[edge.Source], edge)
+		}
+
 		fmt.Println(node.Type)
+		result, err := nodes.GetSupportedNodes()[node.Type].Resolve(node.Data, inputGraph.State[node.ID])
+		if err != nil {
+			return nil, err
+		}
+
+		if node.ID == terminals.Output.ID {
+			return result, nil
+		}
+
+		// update the state for all nodes that have this one as input
+		for _, edge := range sourceTargetMap[node.ID] {
+			// get the node that is connected to the current node
+			connectedNode, _ := connectedGraph.Vertex(edge.Target)
+			// update the state of the connected node
+			if inputGraph.State[connectedNode.ID] == nil {
+				inputGraph.State[connectedNode.ID] = make(map[string]interface{})
+			}
+			inputGraph.State[connectedNode.ID][edge.Properties.Attributes["TargetHandle"]] = result[edge.Properties.Attributes["SourceHandle"]]
+			fmt.Println("Updated state of the handle " + edge.Properties.Attributes["TargetHandle"] + " of the node " + connectedNode.ID + " with value " + fmt.Sprint(result))
+		}
+
 	}
-	return json_graph, nil
+	return nil, nil
 
 }

@@ -1,0 +1,47 @@
+package nodes
+
+import (
+	"errors"
+	"fmt"
+)
+
+type InputResolver struct {
+	NodeResolver
+}
+
+func (r InputResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	outputState := make(map[string]interface{})
+	// iterate over the definitions in the data and assign them to the state
+	for k, _ := range state["definition"].(map[string]interface{}) {
+		outputState[k] = state["values"].(map[string]interface{})[k]
+	}
+	return outputState, nil
+}
+
+func (r InputResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["name"]; !ok {
+		return errors.New("Missing required field 'name'")
+	}
+	return nil
+}
+
+type OutputResolver struct {
+	NodeResolver
+}
+
+func (r OutputResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+
+	outputState := make(map[string]interface{})
+
+	fmt.Println(state["mappings"])
+	// iterate over the mapping in the state map and assign them to the output
+	for _, v := range state["mappings"].([]interface{}) {
+		fmt.Println(v.(map[string]interface{})["key"])
+		fmt.Println(state[v.(map[string]interface{})["key"].(string)])
+		outputState[v.(map[string]interface{})["name"].(string)] = state[v.(map[string]interface{})["key"].(string)]
+
+	}
+	fmt.Println(outputState)
+
+	return outputState, nil
+}
