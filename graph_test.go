@@ -49,3 +49,9 @@ func TestComplexJSON(t *testing.T) {
 		t.Fatalf(`should not trigger an error but did (%v)`, err)
 	}
 }
+
+func TestMultipleOutputs(t *testing.T) {
+	content, _ := os.ReadFile("fixtures/multipleOutputs.json")
+	result, _ := execute(content)
+	fmt.Println(result)
+}

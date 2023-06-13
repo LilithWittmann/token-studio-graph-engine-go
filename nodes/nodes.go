@@ -2,9 +2,9 @@ package nodes
 
 //export NodeResolver
 type NodeResolver interface {
-	//export NodeResolver_resolve
+	//export NodeResolver_Resolve
 	Resolve(map[string]interface{}, map[string]interface{}) (map[string]interface{}, error)
-	//export NodeResolver_validate
+	//export NodeResolver_Validate
 	Validate(map[string]interface{}, map[string]interface{}) error
 }
 

@@ -102,6 +102,15 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 	topologicSortedGraph, _ := graph.TopologicalSort(connectedGraph)
 
 	fmt.Println("Topologic:")
+
+	// create a source target map
+	sourceTargetMap := map[string][]graph.Edge[string]{}
+	edges, _ := connectedGraph.Edges()
+	for _, edge := range edges {
+		fmt.Println(edge)
+		sourceTargetMap[edge.Source] = append(sourceTargetMap[edge.Source], edge)
+	}
+
 	// go through the topologic sorted graph and execute the nodes
 	for _, nodeID := range topologicSortedGraph {
 		fmt.Println(nodeID)
@@ -109,13 +118,6 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 
 		if inputGraph.State[node.ID] != nil {
 			fmt.Println(inputGraph.State[node.ID])
-		}
-
-		// create a source target map
-		sourceTargetMap := map[string][]graph.Edge[string]{}
-		edges, _ := connectedGraph.Edges()
-		for _, edge := range edges {
-			sourceTargetMap[edge.Source] = append(sourceTargetMap[edge.Source], edge)
 		}
 
 		fmt.Println(node.Type)
