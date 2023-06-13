@@ -55,12 +55,6 @@ func (inputGraph *Graph) findTerminals() (Terminals, error) {
 		case nodes.OUTPUT:
 			terminalOutput := node
 			terminals.Output = &terminalOutput
-		default:
-			/*
-				if !(nodes.GetSupportedNodes()[node.Type]) {
-					return terminals, errors.New("Unkonwn node type '" + string(node.Type) + "'")
-				}*/
-			fmt.Print("Unknown node type: ")
 		}
 	}
 
@@ -124,10 +118,6 @@ func (inputGraph *Graph) Execute() (map[string]interface{}, error) {
 
 		fmt.Println(nodeID)
 		node, _ := connectedGraph.Vertex(nodeID)
-
-		if inputGraph.State[node.ID] != nil {
-			fmt.Println(inputGraph.State[node.ID])
-		}
 
 		fmt.Println(node.Type)
 		// check if resolver exists

@@ -3,6 +3,7 @@ package token_studio_graph_engine
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"testing"
 )
 
@@ -60,5 +61,19 @@ func TestMultipleOutputs(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/multipleOutputs.json")
 	g, _ := NewGraph(content)
 	result, _ := g.Execute()
+	fmt.Println(result)
+}
+
+func TestLogicNodes(t *testing.T) {
+	content, _ := os.ReadFile("fixtures/randomLogic.json")
+	g, _ := NewGraph(content)
+	result, _ := g.Execute()
+	foo, _ := result["foo"].(bool)
+	output_1, _ := result["output_1"]
+	output_2, _ := strconv.ParseInt(result["output_2"].(string), 10, 64)
+	if !(foo == true && output_1 == false && output_2 == 1) {
+		t.Fatalf(`Wrong result (%v)`, result)
+	}
+
 	fmt.Println(result)
 }
