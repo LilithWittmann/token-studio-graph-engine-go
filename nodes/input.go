@@ -6,7 +6,6 @@ import (
 )
 
 type ConstantResolver struct {
-	NodeResolver
 }
 
 func (r ConstantResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {

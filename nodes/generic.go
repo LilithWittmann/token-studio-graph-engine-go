@@ -6,7 +6,6 @@ import (
 )
 
 type InputResolver struct {
-	NodeResolver
 }
 
 func (r InputResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
@@ -26,14 +25,12 @@ func (r InputResolver) Validate(data map[string]interface{}, state map[string]in
 }
 
 type OutputResolver struct {
-	NodeResolver
 }
 
 func (r OutputResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
 
 	outputState := make(map[string]interface{})
 
-	fmt.Println(state["mappings"])
 	// iterate over the mapping in the state map and assign them to the output
 	for _, v := range state["mappings"].([]interface{}) {
 		// check if the state exist and if yes apply to output
@@ -44,4 +41,11 @@ func (r OutputResolver) Resolve(data map[string]interface{}, state map[string]in
 	fmt.Println(outputState)
 
 	return outputState, nil
+}
+
+func (r OutputResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["mappings"]; !ok {
+		return errors.New("Missing required field 'mappings'")
+	}
+	return nil
 }

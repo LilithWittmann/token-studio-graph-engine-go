@@ -8,7 +8,6 @@ import (
 )
 
 type AdditionResolver struct {
-	NodeResolver
 }
 
 func InputsToFloat(data map[string]interface{}) map[string]float64 {
@@ -45,7 +44,6 @@ func (r AdditionResolver) Validate(data map[string]interface{}, state map[string
 }
 
 type SubtractResolver struct {
-	NodeResolver
 }
 
 func (r SubtractResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
@@ -67,7 +65,6 @@ func (r SubtractResolver) Validate(data map[string]interface{}, state map[string
 }
 
 type MultiplyResolver struct {
-	NodeResolver
 }
 
 func (r MultiplyResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
@@ -88,7 +85,6 @@ func (r MultiplyResolver) Validate(data map[string]interface{}, state map[string
 }
 
 type DivideResolver struct {
-	NodeResolver
 }
 
 func (r DivideResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
@@ -109,7 +105,6 @@ func (r DivideResolver) Validate(data map[string]interface{}, state map[string]i
 }
 
 type ModuloResolver struct {
-	NodeResolver
 }
 
 func (r ModuloResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
