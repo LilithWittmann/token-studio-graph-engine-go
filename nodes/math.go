@@ -4,6 +4,7 @@ import "C"
 import (
 	"errors"
 	"math"
+	"math/rand"
 	"strconv"
 )
 
@@ -56,10 +57,10 @@ func (r SubtractResolver) Resolve(data map[string]interface{}, state map[string]
 
 func (r SubtractResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
 	if _, ok := data["1"]; !ok {
-		return errors.New("Missing required field 'a'")
+		return errors.New("Missing required field '1'")
 	}
 	if _, ok := data["2"]; !ok {
-		return errors.New("Missing required field 'b'")
+		return errors.New("Missing required field '2'")
 	}
 	return nil
 }
@@ -75,11 +76,11 @@ func (r MultiplyResolver) Resolve(data map[string]interface{}, state map[string]
 }
 
 func (r MultiplyResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
-		return errors.New("Missing required field 'a'")
+	if _, ok := data["1"]; !ok {
+		return errors.New("Missing required field '1'")
 	}
-	if _, ok := data["b"]; !ok {
-		return errors.New("Missing required field 'b'")
+	if _, ok := data["2"]; !ok {
+		return errors.New("Missing required field '2'")
 	}
 	return nil
 }
@@ -96,10 +97,10 @@ func (r DivideResolver) Resolve(data map[string]interface{}, state map[string]in
 
 func (r DivideResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
 	if _, ok := data["1"]; !ok {
-		return errors.New("Missing required field 'a'")
+		return errors.New("Missing required field '1'")
 	}
 	if _, ok := data["2"]; !ok {
-		return errors.New("Missing required field 'b'")
+		return errors.New("Missing required field '2'")
 	}
 	return nil
 }
@@ -121,5 +122,179 @@ func (r ModuloResolver) Validate(data map[string]interface{}, state map[string]i
 	if _, ok := data["b"]; !ok {
 		return errors.New("Missing required field 'b'")
 	}
+	return nil
+}
+
+type AbsoluteValueResolver struct {
+}
+
+func (r AbsoluteValueResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	return map[string]interface{}{
+		"output": math.Abs(inputs["input"]),
+	}, nil
+}
+
+func (r AbsoluteValueResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["input"]; !ok {
+		return errors.New("Missing required field 'input'")
+	}
+	return nil
+}
+
+type RoundResolver struct {
+}
+
+func roundFloat(val float64, precision uint) float64 {
+	ratio := math.Pow(10, float64(precision))
+	return math.Round(val*ratio) / ratio
+}
+
+func (r RoundResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	precision := uint(inputs["precision"])
+	return map[string]interface{}{
+		"output": roundFloat(inputs["value"], precision),
+	}, nil
+}
+
+func (r RoundResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["value"]; !ok {
+		return errors.New("Missing required field 'value'")
+	}
+	if _, ok := data["precision"]; !ok {
+		return errors.New("Missing required field 'precision'")
+	}
+	return nil
+}
+
+type SineResolver struct {
+}
+
+func (r SineResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	return map[string]interface{}{
+		"output": math.Sin(inputs["value"]),
+	}, nil
+}
+
+func (r SineResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["value"]; !ok {
+		return errors.New("Missing required field '1'")
+	}
+	return nil
+}
+
+type CosineResolver struct {
+}
+
+func (r CosineResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	return map[string]interface{}{
+		"output": math.Cos(inputs["value"]),
+	}, nil
+}
+
+func (r CosineResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["value"]; !ok {
+		return errors.New("Missing required field '1'")
+	}
+	return nil
+}
+
+type TangentResolver struct {
+}
+
+func (r TangentResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	return map[string]interface{}{
+		"output": math.Tan(inputs["value"]),
+	}, nil
+}
+
+func (r TangentResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["value"]; !ok {
+		return errors.New("Missing required field 'value'")
+	}
+	return nil
+}
+
+type LerpResolver struct {
+}
+
+func (r LerpResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	a := inputs["a"]
+	b := inputs["b"]
+	t := inputs["t"]
+	return map[string]interface{}{
+		"output": a + (b-a)*t,
+	}, nil
+}
+
+func (r LerpResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["a"]; !ok {
+		return errors.New("Missing required field 'a'")
+	}
+	if _, ok := data["b"]; !ok {
+		return errors.New("Missing required field 'b'")
+	}
+	if _, ok := data["t"]; !ok {
+		return errors.New("Missing required field 't'")
+	}
+	return nil
+}
+
+type ClampResolver struct {
+}
+
+func (r ClampResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+	inputs := InputsToFloat(state)
+	x := inputs["value"]
+	min := inputs["min"]
+	max := inputs["max"]
+	return map[string]interface{}{
+		"output": math.Max(math.Min(x, max), min),
+	}, nil
+}
+
+func (r ClampResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	if _, ok := data["value"]; !ok {
+		return errors.New("Missing required field 'value'")
+	}
+	if _, ok := data["min"]; !ok {
+		return errors.New("Missing required field 'min'")
+	}
+	if _, ok := data["max"]; !ok {
+		return errors.New("Missing required field 'max'")
+	}
+	return nil
+}
+
+type RandomResolver struct {
+}
+
+func (r RandomResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+
+	return map[string]interface{}{
+		"output": rand.Float64(),
+	}, nil
+}
+
+func (r RandomResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
+	return nil
+}
+
+type CountResolver struct {
+}
+
+func (r CountResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
+
+	return map[string]interface{}{
+		"output": len(state["input"].([]interface{})),
+	}, nil
+}
+
+func (r CountResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
 	return nil
 }

@@ -84,7 +84,7 @@ const (
 
 func GetSupportedNodes() map[NodeTypes]NodeResolver {
 	return map[NodeTypes]NodeResolver{
-		ADD: AdditionResolver{}, SUBTRACT: SubtractResolver{}, MULTIPLY: MultiplyResolver{}, DIV: DivideResolver{}, MOD: ModuloResolver{},
+		ADD: AdditionResolver{}, SUBTRACT: SubtractResolver{}, MULTIPLY: MultiplyResolver{}, DIV: DivideResolver{}, MOD: ModuloResolver{}, ABS: AbsoluteValueResolver{}, ROUND: RoundResolver{}, SIN: SineResolver{}, COS: CosineResolver{}, TAN: TangentResolver{}, LERP: LerpResolver{}, CLAMP: ClampResolver{}, RANDOM: RandomResolver{}, COUNT: CountResolver{},
 		CONSTANT: ConstantResolver{},
 		INPUT:    InputResolver{}, OUTPUT: OutputResolver{},
 	}
