@@ -61,7 +61,9 @@ func TestMultipleOutputs(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/multipleOutputs.json")
 	g, _ := NewGraph(content)
 	result, _ := g.Execute()
-	fmt.Println(result)
+	if !(result["number"] == 0.33333333333333215 && result["second"] == 18.333333333333332) {
+		t.Fatalf(`Wrong result (%v)`, result)
+	}
 }
 
 func TestLogicNodes(t *testing.T) {
@@ -74,6 +76,13 @@ func TestLogicNodes(t *testing.T) {
 	if !(foo == true && output_1 == false && output_2 == 1) {
 		t.Fatalf(`Wrong result (%v)`, result)
 	}
+}
 
-	fmt.Println(result)
+func TestInputNodes(t *testing.T) {
+	content, _ := os.ReadFile("fixtures/InputNodes.json")
+	g, _ := NewGraph(content)
+	result, _ := g.Execute()
+	if !(result["enumerated"] == "bar" && result["constant"] == "4" && result["slider"] == 2.5) {
+		t.Fatalf(`Wrong result (%v)`, result)
+	}
 }
