@@ -31,14 +31,14 @@ jobs:
 
       - name: Build ios Simulator with gomobile
         run: |
-          gomobile bind -target=iossimulator -v -o output/tokenStudioResolverIosSimulator.xcframework ./...
+          gomobile bind -target=iossimulator -v -o output/TokenStudioResolverIosSimulator.xcframework ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
 
       - name: Build ios with gomobile
         run: |
-          gomobile bind -target=ios -v -o output//tokenStudioResolverIos.xcframework ./...
+          gomobile bind -target=ios -v -o output/TokenStudioResolverIos.xcframework ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
@@ -46,5 +46,5 @@ jobs:
       - name: Upload output
         uses: actions/upload-artifact@v3
         with:
-          name: output
+          name: Token-Studio-Resolver-Go-iOS-Build
           path: output/

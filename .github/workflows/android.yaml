@@ -36,10 +36,13 @@ jobs:
       - name: check ndk path
         run: ls ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/
 
+      - name: Create output Dir
+        run: |
+          mkdir output
 
       - name: Build AAR File with gomobile
         run: |
-          gomobile bind -target=android -v ./...
+          gomobile bind -target=android -o output/TokenStudioResolverAndroid.aar -v ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
@@ -52,5 +55,5 @@ jobs:
       - name: Upload output
         uses: actions/upload-artifact@v3
         with:
-          name: output
-          path: .
+          name: Token-Studio-Resolver-Go-Android-Build
+          path: output/
