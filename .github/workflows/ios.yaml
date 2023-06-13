@@ -1,4 +1,4 @@
-name: Build Go Library Android
+name: Build Go Library iOS
 
 on: [push]
 
@@ -25,10 +25,20 @@ jobs:
           GOPROXY: https://proxy.golang.org,direct
           GO111MODULE: "on"
 
+      - name: Create output Dir
+        run: |
+          mkdir output
 
       - name: Build ios Simulator with gomobile
         run: |
-          gomobile bind -target=iossimulator -v ./...
+          gomobile bind -target=iossimulator -v -o output/ ./...
+        env:
+          GO111MODULE: auto
+          CGO_ENABLED: 1
+
+      - name: Build ios with gomobile
+        run: |
+          gomobile bind -target=ios -v -o output/ ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
@@ -37,4 +47,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: output
-          path: .
+          path: output/
