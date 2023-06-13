@@ -68,8 +68,8 @@ func (inputGraph Graph) findTerminals() (Terminals, error) {
 }
 
 //export NewGraph
-func NewGraph(jsonInput []byte) (Graph, error) {
-	var g Graph
+func NewGraph(jsonInput []byte) (*Graph, error) {
+	var g *Graph
 	err := json.Unmarshal(jsonInput, &g)
 
 	return g, err
