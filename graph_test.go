@@ -15,12 +15,15 @@ func TestInitGraphFromJSON(t *testing.T) {
 
 func TestExecute(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/math.json")
-	execute(content)
+	graph, _ := NewGraph(content)
+	result, _ := graph.Execute()
+	fmt.Println(result)
 }
 
 func TestExecuteNoInput(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/noInput.json")
-	_, err := execute(content)
+	g, _ := NewGraph(content)
+	_, err := g.Execute()
 	if err == nil {
 		t.Fatalf(`excecute without input didn't trigger an error (%v)`, err)
 	}
@@ -28,7 +31,8 @@ func TestExecuteNoInput(t *testing.T) {
 
 func TestExecuteNoOutput(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/noOutput.json")
-	_, err := execute(content)
+	g, _ := NewGraph(content)
+	_, err := g.Execute()
 	if err == nil {
 		t.Fatalf(`excecute without output didn't trigger an error (%v)`, err)
 	}
@@ -36,7 +40,8 @@ func TestExecuteNoOutput(t *testing.T) {
 
 func TestUnknownNode(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/unknownNode.json")
-	_, err := execute(content)
+	g, _ := NewGraph(content)
+	_, err := g.Execute()
 	if err == nil {
 		t.Fatalf(`unknown node didn't trigger an error (%v)`, err)
 	}
@@ -44,7 +49,8 @@ func TestUnknownNode(t *testing.T) {
 
 func TestComplexJSON(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/math.json")
-	_, err := execute(content)
+	g, _ := NewGraph(content)
+	_, err := g.Execute()
 	if err != nil {
 		t.Fatalf(`should not trigger an error but did (%v)`, err)
 	}
@@ -52,6 +58,7 @@ func TestComplexJSON(t *testing.T) {
 
 func TestMultipleOutputs(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/multipleOutputs.json")
-	result, _ := execute(content)
+	g, _ := NewGraph(content)
+	result, _ := g.Execute()
 	fmt.Println(result)
 }

@@ -1,7 +1,6 @@
 package token_studio_graph_engine
 
 import "C"
-import "encoding/json"
 
 import nodes "github.com/lilithwittmann/token-studio-graph-engine-go/nodes"
 
@@ -27,11 +26,4 @@ type Graph struct {
 	Nodes []Node                            `json:"nodes"`
 	Edges []Edge                            `json:"edges"`
 	State map[string]map[string]interface{} `json:"state"`
-}
-
-func NewGraph(json_input []byte) (Graph, error) {
-	var g Graph
-	err := json.Unmarshal(json_input, &g)
-
-	return g, err
 }

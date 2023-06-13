@@ -1,6 +1,7 @@
 package token_studio_graph_engine
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/dominikbraun/graph"
@@ -22,7 +23,7 @@ type StateTracker struct {
 
 var stateTracker StateTracker
 
-func convertGraphToGraphlib(inputGraph Graph) graph.Graph[string, Node] {
+func (inputGraph Graph) convertGraphToGraphlib() graph.Graph[string, Node] {
 
 	nodeHash := func(n Node) string {
 		return n.ID
@@ -43,7 +44,7 @@ func convertGraphToGraphlib(inputGraph Graph) graph.Graph[string, Node] {
 
 }
 
-func findTerminals(inputGraph Graph) (Terminals, error) {
+func (inputGraph Graph) findTerminals() (Terminals, error) {
 	terminals := Terminals{}
 	// Check and map input and output and validate if there are non-existing nodes
 	for _, node := range inputGraph.Nodes {
@@ -66,21 +67,22 @@ func findTerminals(inputGraph Graph) (Terminals, error) {
 	return terminals, nil
 }
 
-//export execute
-func execute(json_graph []byte) (map[string]interface{}, error) {
-	inputGraph, err := NewGraph(json_graph)
-	fmt.Println("State")
-	fmt.Println(inputGraph.State)
-	// this usually means that we don't support the input graph
-	if err != nil {
-		return nil, err
-	}
+//export NewGraph
+func NewGraph(jsonInput []byte) (Graph, error) {
+	var g Graph
+	err := json.Unmarshal(jsonInput, &g)
 
-	connectedGraph := convertGraphToGraphlib(inputGraph)
+	return g, err
+}
+
+//export Execute
+func (inputGraph Graph) Execute() (map[string]interface{}, error) {
+
+	connectedGraph := inputGraph.convertGraphToGraphlib()
 	fmt.Println(inputGraph)
 
 	// find the start and endpoint of our Graph and ensure that it actually exist
-	terminals, err := findTerminals(inputGraph)
+	terminals, err := inputGraph.findTerminals()
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +100,7 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 	fmt.Println(terminals.Input)
 	fmt.Println("Output")
 	fmt.Println(terminals.Output)
-	// sort the graph topologically so we can execute it
+	// sort the graph topologically so we can Execute it
 	topologicSortedGraph, _ := graph.TopologicalSort(connectedGraph)
 
 	fmt.Println("Topologic:")
@@ -110,7 +112,7 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 		sourceTargetMap[edge.Source] = append(sourceTargetMap[edge.Source], edge)
 	}
 
-	// go through the topologic sorted graph and execute the nodes
+	// go through the topologic sorted graph and Execute the nodes
 	for _, nodeID := range topologicSortedGraph {
 
 		fmt.Println(nodeID)
