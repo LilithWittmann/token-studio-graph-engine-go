@@ -82,7 +82,6 @@ const (
 	COLOR_BLINDNESS NodeTypes = "studio.tokens.accessibility.colorBlindness"
 )
 
-//export GetSupportedNodes
 func GetSupportedNodes() map[NodeTypes]NodeResolver {
 	return map[NodeTypes]NodeResolver{
 		ADD: AdditionResolver{}, SUBTRACT: SubtractResolver{}, MULTIPLY: MultiplyResolver{}, DIV: DivideResolver{}, MOD: ModuloResolver{},

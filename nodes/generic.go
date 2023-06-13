@@ -36,10 +36,10 @@ func (r OutputResolver) Resolve(data map[string]interface{}, state map[string]in
 	fmt.Println(state["mappings"])
 	// iterate over the mapping in the state map and assign them to the output
 	for _, v := range state["mappings"].([]interface{}) {
-		fmt.Println(v.(map[string]interface{})["key"])
-		fmt.Println(state[v.(map[string]interface{})["key"].(string)])
-		outputState[v.(map[string]interface{})["name"].(string)] = state[v.(map[string]interface{})["key"].(string)]
-
+		// check if the state exist and if yes apply to output
+		if _, ok := state[v.(map[string]interface{})["key"].(string)]; ok {
+			outputState[v.(map[string]interface{})["name"].(string)] = state[v.(map[string]interface{})["key"].(string)]
+		}
 	}
 	fmt.Println(outputState)
 

@@ -3,7 +3,6 @@ package nodes
 import "C"
 import (
 	"errors"
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -93,9 +92,7 @@ type DivideResolver struct {
 }
 
 func (r DivideResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
-	fmt.Println("DivideResolver.Resolve")
 	inputs := InputsToFloat(state)
-
 	return map[string]interface{}{
 		"output": inputs["1"] / inputs["2"],
 	}, nil
@@ -117,9 +114,6 @@ type ModuloResolver struct {
 
 func (r ModuloResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
 	inputs := InputsToFloat(state)
-	fmt.Println(inputs["a"])
-	fmt.Println(inputs["b"])
-	fmt.Println(math.Mod(inputs["a"], inputs["b"]))
 	return map[string]interface{}{
 		"output": math.Mod(inputs["a"], inputs["b"]),
 	}, nil
