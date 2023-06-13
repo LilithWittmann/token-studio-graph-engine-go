@@ -31,14 +31,14 @@ jobs:
 
       - name: Build ios Simulator with gomobile
         run: |
-          gomobile bind -target=iossimulator -v -o output/ ./...
+          gomobile bind -target=iossimulator -v -o output/tokenStudioResolverIosSimulator.xcframework ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
 
       - name: Build ios with gomobile
         run: |
-          gomobile bind -target=ios -v -o output/ ./...
+          gomobile bind -target=ios -v -o output//tokenStudioResolverIos.xcframework ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
