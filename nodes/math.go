@@ -8,7 +8,6 @@ import (
 	"strconv"
 )
 
-//export AdditionResolver
 type AdditionResolver struct {
 	NodeResolver
 }
@@ -46,7 +45,6 @@ func (r AdditionResolver) Validate(data map[string]interface{}, state map[string
 	return nil
 }
 
-//export SubtractResolver
 type SubtractResolver struct {
 	NodeResolver
 }
@@ -69,7 +67,6 @@ func (r SubtractResolver) Validate(data map[string]interface{}, state map[string
 	return nil
 }
 
-//export MultiplyResolver
 type MultiplyResolver struct {
 	NodeResolver
 }
@@ -91,7 +88,6 @@ func (r MultiplyResolver) Validate(data map[string]interface{}, state map[string
 	return nil
 }
 
-//export DivideResolver
 type DivideResolver struct {
 	NodeResolver
 }
@@ -115,7 +111,6 @@ func (r DivideResolver) Validate(data map[string]interface{}, state map[string]i
 	return nil
 }
 
-//export ModuloResolver
 type ModuloResolver struct {
 	NodeResolver
 }

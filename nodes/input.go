@@ -6,7 +6,6 @@ import (
 	"fmt"
 )
 
-//export ConstantResolver
 type ConstantResolver struct {
 	NodeResolver
 }
