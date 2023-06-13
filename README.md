@@ -8,3 +8,12 @@ dependencies {
     implementation (name: 'token_studio_graph_engine', ext: 'aar')
 }
 ```
+Execute a graph: (Yes currently the result object is a json object 🙃)
+```kotlin
+var input = applicationContext.assets.open("graphs/math.json")
+var g = Graph(input.readBytes())
+
+var result = g.executeToJSON()
+var resultString = result.toString(Charsets.UTF_8)
+```
+
