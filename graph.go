@@ -104,15 +104,15 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 	fmt.Println("Topologic:")
 
 	// create a source target map
-	sourceTargetMap := map[string][]graph.Edge[string]{}
-	edges, _ := connectedGraph.Edges()
-	for _, edge := range edges {
+	sourceTargetMap := map[string][]Edge{}
+	for _, edge := range inputGraph.Edges {
 		fmt.Println(edge)
 		sourceTargetMap[edge.Source] = append(sourceTargetMap[edge.Source], edge)
 	}
 
 	// go through the topologic sorted graph and execute the nodes
 	for _, nodeID := range topologicSortedGraph {
+
 		fmt.Println(nodeID)
 		node, _ := connectedGraph.Vertex(nodeID)
 
@@ -121,6 +121,11 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 		}
 
 		fmt.Println(node.Type)
+		// check if resolver exists
+		if nodes.GetSupportedNodes()[node.Type] == nil {
+			return nil, errors.New("No resolver found for node type '" + string(node.Type) + "'")
+		}
+		// resolve the node
 		result, err := nodes.GetSupportedNodes()[node.Type].Resolve(node.Data, inputGraph.State[node.ID])
 		if err != nil {
 			return nil, err
@@ -138,8 +143,8 @@ func execute(json_graph []byte) (map[string]interface{}, error) {
 			if inputGraph.State[connectedNode.ID] == nil {
 				inputGraph.State[connectedNode.ID] = make(map[string]interface{})
 			}
-			inputGraph.State[connectedNode.ID][edge.Properties.Attributes["TargetHandle"]] = result[edge.Properties.Attributes["SourceHandle"]]
-			fmt.Println("Updated state of the handle " + edge.Properties.Attributes["TargetHandle"] + " of the node " + connectedNode.ID + " with value " + fmt.Sprint(result))
+			inputGraph.State[connectedNode.ID][edge.TargetHandle] = result[edge.SourceHandle]
+			fmt.Println("Updated state of the handle " + edge.TargetHandle + " of the node " + connectedNode.ID + " with value " + fmt.Sprint(result))
 		}
 
 	}
