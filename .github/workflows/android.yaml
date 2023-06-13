@@ -42,7 +42,7 @@ jobs:
 
       - name: Build AAR File with gomobile
         run: |
-          gomobile bind -target=android -o output/TokenStudioResolverAndroid.aar -v ./...
+          gomobile bind -target=android -o output/TokenStudioGraphEngineAndroid.aar -v ./...
         env:
           GO111MODULE: auto
           CGO_ENABLED: 1
@@ -55,5 +55,5 @@ jobs:
       - name: Upload output
         uses: actions/upload-artifact@v3
         with:
-          name: Token-Studio-Resolver-Go-Android-Build
+          name: Token-Studio-Graph-Engine-Go-Android-Build
           path: output/
