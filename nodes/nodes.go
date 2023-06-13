@@ -89,5 +89,6 @@ func GetSupportedNodes() map[NodeTypes]NodeResolver {
 		IF: IfResolver{}, NOT: NotResolver{}, AND: AndResolver{}, OR: OrResolver{}, SWITCH: SwitchResolver{}, COMPARE: CompareResolver{},
 		INPUT: InputResolver{}, OUTPUT: OutputResolver{},
 		UPPERCASE: UppercaseResolver{}, LOWER: LowercaseResolver{}, REGEX: RegexResolver{}, PASS_UNIT: PassUnitResolver{},
+		ARRAY_INDEX: ArrayindexResolver{}, ARRIFY: ArrifyResolver{}, REVERSE: ReverseResolver{}, SLICE: SliceResolver{}, JOIN: JoinResolver{},
 	}
 }

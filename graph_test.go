@@ -95,3 +95,12 @@ func TestStringNodes(t *testing.T) {
 		t.Fatalf(`Wrong result (%v)`, result)
 	}
 }
+
+func TestArrayNodes(t *testing.T) {
+	content, _ := os.ReadFile("fixtures/ArrayNodes.json")
+	g, _ := NewGraph(content)
+	result, _ := g.Execute()
+	if !(result["count"] == 3 && result["index"] == "5" && result["joined"] == "8.3.1") {
+		t.Fatalf(`Wrong result (%v)`, result)
+	}
+}
