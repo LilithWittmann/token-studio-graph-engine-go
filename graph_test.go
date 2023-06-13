@@ -86,3 +86,12 @@ func TestInputNodes(t *testing.T) {
 		t.Fatalf(`Wrong result (%v)`, result)
 	}
 }
+
+func TestStringNodes(t *testing.T) {
+	content, _ := os.ReadFile("fixtures/StringNodes.json")
+	g, _ := NewGraph(content)
+	result, _ := g.Execute()
+	if !(result["regex_out"] == "aZbZcZ" && result["upper"] == "UPPER" && result["lower"] == "lower" && result["pixels"] == "42px") {
+		t.Fatalf(`Wrong result (%v)`, result)
+	}
+}

@@ -18,7 +18,7 @@ func (r InputResolver) Resolve(data map[string]interface{}, state map[string]int
 }
 
 func (r InputResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["name"]; !ok {
+	if _, ok := state["name"]; !ok {
 		return errors.New("Missing required field 'name'")
 	}
 	return nil
@@ -44,7 +44,7 @@ func (r OutputResolver) Resolve(data map[string]interface{}, state map[string]in
 }
 
 func (r OutputResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["mappings"]; !ok {
+	if _, ok := state["mappings"]; !ok {
 		return errors.New("Missing required field 'mappings'")
 	}
 	return nil

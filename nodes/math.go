@@ -56,10 +56,10 @@ func (r SubtractResolver) Resolve(data map[string]interface{}, state map[string]
 }
 
 func (r SubtractResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["1"]; !ok {
+	if _, ok := state["1"]; !ok {
 		return errors.New("Missing required field '1'")
 	}
-	if _, ok := data["2"]; !ok {
+	if _, ok := state["2"]; !ok {
 		return errors.New("Missing required field '2'")
 	}
 	return nil
@@ -76,10 +76,10 @@ func (r MultiplyResolver) Resolve(data map[string]interface{}, state map[string]
 }
 
 func (r MultiplyResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["1"]; !ok {
+	if _, ok := state["1"]; !ok {
 		return errors.New("Missing required field '1'")
 	}
-	if _, ok := data["2"]; !ok {
+	if _, ok := state["2"]; !ok {
 		return errors.New("Missing required field '2'")
 	}
 	return nil
@@ -96,10 +96,10 @@ func (r DivideResolver) Resolve(data map[string]interface{}, state map[string]in
 }
 
 func (r DivideResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["1"]; !ok {
+	if _, ok := state["1"]; !ok {
 		return errors.New("Missing required field '1'")
 	}
-	if _, ok := data["2"]; !ok {
+	if _, ok := state["2"]; !ok {
 		return errors.New("Missing required field '2'")
 	}
 	return nil
@@ -116,10 +116,10 @@ func (r ModuloResolver) Resolve(data map[string]interface{}, state map[string]in
 }
 
 func (r ModuloResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
-	if _, ok := data["b"]; !ok {
+	if _, ok := state["b"]; !ok {
 		return errors.New("Missing required field 'b'")
 	}
 	return nil
@@ -136,7 +136,7 @@ func (r AbsoluteValueResolver) Resolve(data map[string]interface{}, state map[st
 }
 
 func (r AbsoluteValueResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["input"]; !ok {
+	if _, ok := state["input"]; !ok {
 		return errors.New("Missing required field 'input'")
 	}
 	return nil
@@ -159,10 +159,10 @@ func (r RoundResolver) Resolve(data map[string]interface{}, state map[string]int
 }
 
 func (r RoundResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["value"]; !ok {
+	if _, ok := state["value"]; !ok {
 		return errors.New("Missing required field 'value'")
 	}
-	if _, ok := data["precision"]; !ok {
+	if _, ok := state["precision"]; !ok {
 		return errors.New("Missing required field 'precision'")
 	}
 	return nil
@@ -179,7 +179,7 @@ func (r SineResolver) Resolve(data map[string]interface{}, state map[string]inte
 }
 
 func (r SineResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["value"]; !ok {
+	if _, ok := state["value"]; !ok {
 		return errors.New("Missing required field '1'")
 	}
 	return nil
@@ -196,7 +196,7 @@ func (r CosineResolver) Resolve(data map[string]interface{}, state map[string]in
 }
 
 func (r CosineResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["value"]; !ok {
+	if _, ok := state["value"]; !ok {
 		return errors.New("Missing required field '1'")
 	}
 	return nil
@@ -213,7 +213,7 @@ func (r TangentResolver) Resolve(data map[string]interface{}, state map[string]i
 }
 
 func (r TangentResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["value"]; !ok {
+	if _, ok := state["value"]; !ok {
 		return errors.New("Missing required field 'value'")
 	}
 	return nil
@@ -233,13 +233,13 @@ func (r LerpResolver) Resolve(data map[string]interface{}, state map[string]inte
 }
 
 func (r LerpResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
-	if _, ok := data["b"]; !ok {
+	if _, ok := state["b"]; !ok {
 		return errors.New("Missing required field 'b'")
 	}
-	if _, ok := data["t"]; !ok {
+	if _, ok := state["t"]; !ok {
 		return errors.New("Missing required field 't'")
 	}
 	return nil
@@ -259,13 +259,13 @@ func (r ClampResolver) Resolve(data map[string]interface{}, state map[string]int
 }
 
 func (r ClampResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["value"]; !ok {
+	if _, ok := state["value"]; !ok {
 		return errors.New("Missing required field 'value'")
 	}
-	if _, ok := data["min"]; !ok {
+	if _, ok := state["min"]; !ok {
 		return errors.New("Missing required field 'min'")
 	}
-	if _, ok := data["max"]; !ok {
+	if _, ok := state["max"]; !ok {
 		return errors.New("Missing required field 'max'")
 	}
 	return nil

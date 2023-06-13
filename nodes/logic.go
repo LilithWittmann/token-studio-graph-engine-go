@@ -41,13 +41,13 @@ func (r IfResolver) Resolve(data map[string]interface{}, state map[string]interf
 }
 
 func (r IfResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["condition"]; !ok {
+	if _, ok := state["condition"]; !ok {
 		return errors.New("Missing required field 'condition'")
 	}
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
-	if _, ok := data["b"]; !ok {
+	if _, ok := state["b"]; !ok {
 		return errors.New("Missing required field 'b'")
 	}
 	return nil
@@ -73,10 +73,10 @@ func (r AndResolver) Resolve(data map[string]interface{}, state map[string]inter
 }
 
 func (r AndResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
-	if _, ok := data["b"]; !ok {
+	if _, ok := state["b"]; !ok {
 		return errors.New("Missing required field 'b'")
 	}
 	return nil
@@ -121,7 +121,7 @@ func (r NotResolver) Resolve(data map[string]interface{}, state map[string]inter
 }
 
 func (r NotResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
 	return nil
@@ -147,7 +147,7 @@ func (r SwitchResolver) Resolve(data map[string]interface{}, state map[string]in
 }
 
 func (r SwitchResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
 	return nil
@@ -167,7 +167,7 @@ const (
 
 func (r CompareResolver) Resolve(data map[string]interface{}, state map[string]interface{}) (map[string]interface{}, error) {
 
-	switch data["operator"] {
+	switch state["operator"] {
 	case CompareEqual:
 		return map[string]interface{}{
 			"output": state["a"] == state["b"],
@@ -200,13 +200,13 @@ func (r CompareResolver) Resolve(data map[string]interface{}, state map[string]i
 }
 
 func (r CompareResolver) Validate(data map[string]interface{}, state map[string]interface{}) error {
-	if _, ok := data["a"]; !ok {
+	if _, ok := state["a"]; !ok {
 		return errors.New("Missing required field 'a'")
 	}
-	if _, ok := data["b"]; !ok {
+	if _, ok := state["b"]; !ok {
 		return errors.New("Missing required field 'b'")
 	}
-	if _, ok := data["operator"]; !ok {
+	if _, ok := state["operator"]; !ok {
 		return errors.New("Missing required field 'operator'")
 	}
 	return nil
