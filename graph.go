@@ -23,7 +23,7 @@ type StateTracker struct {
 
 var stateTracker StateTracker
 
-func (inputGraph Graph) convertGraphToGraphlib() graph.Graph[string, Node] {
+func (inputGraph *Graph) convertGraphToGraphlib() graph.Graph[string, Node] {
 
 	nodeHash := func(n Node) string {
 		return n.ID
@@ -44,7 +44,7 @@ func (inputGraph Graph) convertGraphToGraphlib() graph.Graph[string, Node] {
 
 }
 
-func (inputGraph Graph) findTerminals() (Terminals, error) {
+func (inputGraph *Graph) findTerminals() (Terminals, error) {
 	terminals := Terminals{}
 	// Check and map input and output and validate if there are non-existing nodes
 	for _, node := range inputGraph.Nodes {
@@ -75,8 +75,15 @@ func NewGraph(jsonInput []byte) (*Graph, error) {
 	return g, err
 }
 
+// Export ExecuteToJSON
+func (inputGraph *Graph) ExecuteToJSON() ([]byte, error) {
+	result, err := inputGraph.Execute()
+	jsonResult, _ := json.Marshal(result)
+	return jsonResult, err
+}
+
 //export Execute
-func (inputGraph Graph) Execute() (map[string]interface{}, error) {
+func (inputGraph *Graph) Execute() (map[string]interface{}, error) {
 
 	connectedGraph := inputGraph.convertGraphToGraphlib()
 	fmt.Println(inputGraph)
