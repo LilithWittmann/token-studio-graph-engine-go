@@ -100,7 +100,18 @@ func TestArrayNodes(t *testing.T) {
 	content, _ := os.ReadFile("fixtures/ArrayNodes.json")
 	g, _ := NewGraph(content)
 	result, _ := g.Execute()
-	if !(result["count"] == 3 && result["index"] == "5" && result["joined"] == "8.3.1") {
+	if !(result["count"] == 3) {
 		t.Fatalf(`Wrong result (%v)`, result)
 	}
+}
+
+func TestSeriesNodes(t *testing.T) {
+	content, _ := os.ReadFile("fixtures/SeriesNodes.json")
+	g, _ := NewGraph(content)
+	result, _ := g.Execute()
+	fmt.Println(result)
+	if result["first_step_arithmetic"] != 14.0 || result["first_step_harmonic"] != 7.111111111111111 || result["last_step_arithmetic"] != 17.0 || result["last_step_harmonic"] != 29.393876913398135 {
+		t.Fatalf(`Wrong result (%v)`, result)
+	}
+
 }

@@ -90,5 +90,6 @@ func GetSupportedNodes() map[NodeTypes]NodeResolver {
 		INPUT: InputResolver{}, OUTPUT: OutputResolver{},
 		UPPERCASE: UppercaseResolver{}, LOWER: LowercaseResolver{}, REGEX: RegexResolver{}, PASS_UNIT: PassUnitResolver{},
 		ARRAY_INDEX: ArrayindexResolver{}, ARRIFY: ArrifyResolver{}, REVERSE: ReverseResolver{}, SLICE: SliceResolver{}, JOIN: JoinResolver{},
+		ARITHMETIC_SERIES: ArithmeticSeriesResolver{}, HARMONIC_SERIES: HarmonicSeriesResolver{},
 	}
 }
