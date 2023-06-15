@@ -16,8 +16,10 @@ func InputsToFloat(data map[string]interface{}) map[string]float64 {
 	floatMap := make(map[string]float64)
 	for k, v := range data {
 		// check if it is already float64
-		if _, ok := v.(float64); !ok {
+		if _, ok := v.(string); ok {
 			floatMap[k], _ = strconv.ParseFloat(v.(string), 64)
+		} else if _, ok := v.(int); ok {
+			floatMap[k] = float64(v.(int))
 		} else {
 			floatMap[k] = v.(float64)
 		}

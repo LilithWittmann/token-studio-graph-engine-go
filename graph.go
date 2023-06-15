@@ -21,6 +21,45 @@ type StateTracker struct {
 	Data map[string]map[string]interface{}
 }
 
+type GraphCache struct {
+	Graphs           map[string]*Graph
+	ExecutionResults map[string]map[string]string
+}
+
+//export NewGraphCache
+func NewGraphCache() (*GraphCache, error) {
+	var g *GraphCache
+	return g, nil
+}
+
+//export InitializeGraph
+func (cache *GraphCache) InitializeGraph(graphID string, jsonInput []byte) error {
+	graph, err := NewGraph(jsonInput)
+	if err != nil {
+		return err
+	}
+	cache.Graphs[graphID] = graph
+	return nil
+}
+
+//export ExecuteGraph
+func (cache *GraphCache) ExecuteGraph(graphID string, graphInputState []byte) ([]byte, error) {
+	input := make(map[string]interface{})
+	err := json.Unmarshal(graphInputState, &input)
+
+	//check if graph with the ID graphID is loaded
+	if cache.Graphs[graphID] == nil {
+		return nil, errors.New("graph with ID " + graphID + " not loaded")
+	}
+
+	result, err := cache.Graphs[graphID].ExecuteToJSON(input)
+
+	// add graph result to cache
+
+	return result, err
+
+}
+
 var stateTracker StateTracker
 
 func (inputGraph *Graph) convertGraphToGraphlib() graph.Graph[string, Node] {
@@ -70,14 +109,14 @@ func NewGraph(jsonInput []byte) (*Graph, error) {
 }
 
 // Export ExecuteToJSON
-func (inputGraph *Graph) ExecuteToJSON() ([]byte, error) {
-	result, err := inputGraph.Execute()
+func (inputGraph *Graph) ExecuteToJSON(input map[string]interface{}) ([]byte, error) {
+	result, err := inputGraph.Execute(input)
 	jsonResult, _ := json.Marshal(result)
 	return jsonResult, err
 }
 
 //export Execute
-func (inputGraph *Graph) Execute() (map[string]interface{}, error) {
+func (inputGraph *Graph) Execute(input map[string]interface{}) (map[string]interface{}, error) {
 
 	connectedGraph := inputGraph.convertGraphToGraphlib()
 	fmt.Println(inputGraph)
@@ -124,6 +163,18 @@ func (inputGraph *Graph) Execute() (map[string]interface{}, error) {
 		if nodes.GetSupportedNodes()[node.Type] == nil {
 			return nil, errors.New("No resolver found for node type '" + string(node.Type) + "'")
 		}
+
+		// if nod is input node add the graph input state to the node
+		if node.ID == terminals.Input.ID && inputGraph.State[node.ID]["values"] != nil {
+
+			for k, v := range input {
+				inputGraph.State[node.ID]["values"].(map[string]interface{})[k] = v
+			}
+
+			fmt.Println(inputGraph.State[node.ID]["values"])
+
+		}
+
 		// resolve the node
 		result, err := nodes.GetSupportedNodes()[node.Type].Resolve(node.Data, inputGraph.State[node.ID])
 		if err != nil {
@@ -142,6 +193,7 @@ func (inputGraph *Graph) Execute() (map[string]interface{}, error) {
 			if inputGraph.State[connectedNode.ID] == nil {
 				inputGraph.State[connectedNode.ID] = make(map[string]interface{})
 			}
+
 			inputGraph.State[connectedNode.ID][edge.TargetHandle] = result[edge.SourceHandle]
 			fmt.Println("Updated state of the handle " + edge.TargetHandle + " of the node " + connectedNode.ID + " with value " + fmt.Sprint(result))
 		}
